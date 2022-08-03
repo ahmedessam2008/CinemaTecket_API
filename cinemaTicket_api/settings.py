@@ -38,13 +38,23 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'tickets.apps.TicketsConfig'
+    'rest_framework.authtoken',
+    'tickets.apps.TicketsConfig',
 ]
 
+# General securety for web api view  
 REST_FRAMEWORK = {
+    # 'DEFAULT_AUTHENTICATION_CLASSES':
+    #     ['rest_framework.authentication.BasicAuthentication'],
+    # 'DEFAULT_PERMISSION_CLASSES':
+    #     ['rest_framework.permissions.IsAuthenticated'],
     
+    'DEFAULT_AUTHENTICATION_CLASSES':
+        ['rest_framework.authentication.TokenAuthentication'],
+    # 'DEFAULT_PERMISSION_CLASSES':
+    #     ['rest_framework.permissions.IsAuthenticated'],
 }
-
+ # permissions ==>  "AllowAny" "IsAuthenticated" "IsAdminuser" "IsAuthenticatedReadOnly"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

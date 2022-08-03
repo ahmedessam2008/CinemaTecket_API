@@ -4,6 +4,7 @@ from django.db import router
 from django.urls import path, include
 from tickets import views
 from rest_framework.routers import DefaultRouter
+from rest_framework.authtoken.views import obtain_auth_token
 
 router = DefaultRouter()
 router.register('users', views.viewsets_users)
@@ -52,4 +53,12 @@ urlpatterns = [
     
     # 9 new reservation function based view
     path("rest/newreservation/", views.new_reservation),
+    
+    # 10 rest auth url ====> To make logout button in the page
+    path("api-auth", include('rest_framework.urls')),
+    
+    # Token Authentication url
+    path("api-token-auth", obtain_auth_token),
+    
+    
 ]

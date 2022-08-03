@@ -9,6 +9,8 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from django.http import Http404
 from rest_framework import mixins, generics, viewsets
+from rest_framework.authentication import BasicAuthentication, TokenAuthentication
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny, IsAuthenticatedOrReadOnly
 
 from tickets import serializers
 # Create your views here.
@@ -193,11 +195,17 @@ class mixins_pk(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.Destr
 class generics_ist_create(generics.ListCreateAPIView):
   queryset = UserData.objects.all()
   serializer_class = UserDataSerializer
+  # authentication_classes = [BasicAuthentication]
+  authentication_classes = [TokenAuthentication]
+  # permission_classes = [IsAuthenticated]
   
 # 6-2 Retrive and Update and Destroy 
 class generics_pk(generics.RetrieveUpdateDestroyAPIView):
   queryset = UserData.objects.all()
   serializer_class = UserDataSerializer
+  # authentication_classes = [BasicAuthentication]
+  authentication_classes = [TokenAuthentication]
+  # permission_classes = [IsAuthenticated]
   
 #####################################################################################
 
@@ -222,7 +230,9 @@ class viewsets_reservations(viewsets.ModelViewSet):
 # 8 Find The movie
 @api_view(['GET'])
 def find_movie(request):
-  movie = Movie.objects.filter(movie=request.data['movie'], hall=request.data['hall'])
+  movie = Movie.objects.filter(
+    movie=request.data['movie'], 
+    hall=request.data['hall'],)
   serializer = MovieSerializer(movie, many=True)
   return Response(serializer.data)
 
